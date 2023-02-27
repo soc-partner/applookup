@@ -1,0 +1,8 @@
+[package]
+name = applookup
+namespace = soc-partner
+description = A plugin to identify applications, inspired by domain-tld & appid
+credits = Romain Ollier <romain@soc-partner.com>
+depends = 
+	zeek >=4.0.0
+
