@@ -37,6 +37,7 @@ event connection_state_remove(c: connection)
       	c$conn$app_etld = ename$tld;
 	local app_kdomain = KnownName::kname_domain(domain);
 	if ( app_kdomain != "" ) c$conn$app_kdomain = app_kdomain;
+	else c$conn$app_kdomain = domain;
 	}
     if (c?$id) 
 	{

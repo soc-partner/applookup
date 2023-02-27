@@ -46,8 +46,8 @@ function kname_domain(domain: string): string
 
 #event Input::end_of_data(name: string, source: string)
 #    {
-#    if ( source == "nets.in")print fmt("I have %d nets", |nets|);
-#    if ( source == "domains.in")print fmt("I have %d domains", |domains|);
+#    if ( "nets.in" in source )print fmt("I have %d nets", |nets|);
+#    if ( "domains.in" in source )print fmt("I have %d domains", |domains|);
 #    local test1: vector of addr = vector(192.168.1.1, 52.215.168.10);
 #    for ( i in test1 )
 #        {
@@ -64,10 +64,10 @@ function kname_domain(domain: string): string
 
 event zeek_init()
     {
-    Input::add_table([$source="nets.in",
-        $idx=t_ips, $val=t_name, $name=@DIR+"/nets.in", $destination=nets,
+    Input::add_table([$source=@DIR+"/nets.in",
+        $idx=t_ips, $val=t_name, $name="nets", $destination=nets,
         $mode=Input::REREAD]);
-    Input::add_table([$source="domains.in",
-        $idx=t_domains, $val=t_name, $name=@DIR+"/domains", $destination=domains,
+    Input::add_table([$source=@DIR+"/domains.in",
+        $idx=t_domains, $val=t_name, $name="domains", $destination=domains,
         $mode=Input::REREAD]);
     }
