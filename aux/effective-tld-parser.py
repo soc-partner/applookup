@@ -28,7 +28,7 @@ for line in urllib.request.urlopen("https://publicsuffix.org/list/public_suffix_
       .replace('*', '[^.]+')
     )
 
-with open('effective-tld-data.zeek', 'w') as f:
+with open('effective-tld.zeek', 'w') as f:
   f.write('module EffectiveName;' + '\n')
   f.write('\n')
   f.write('const effective_tlds_1st_level: pattern = /DEFINED_BELOW/ &redef;' + '\n')

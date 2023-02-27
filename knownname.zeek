@@ -65,9 +65,9 @@ function kname_domain(domain: string): string
 event zeek_init()
     {
     Input::add_table([$source="nets.in",
-        $idx=t_ips, $val=t_name, $name="nets", $destination=nets,
+        $idx=t_ips, $val=t_name, $name=@DIR+"/nets.in", $destination=nets,
         $mode=Input::REREAD]);
     Input::add_table([$source="domains.in",
-        $idx=t_domains, $val=t_name, $name="domains", $destination=domains,
+        $idx=t_domains, $val=t_name, $name=@DIR+"/domains", $destination=domains,
         $mode=Input::REREAD]);
     }
