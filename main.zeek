@@ -6,12 +6,12 @@
 ##!   https://publicsuffix.org/list/public_suffix_list.dat
 ##!   https://github.com/ntop/nDPI/tree/dev/src/lib
 ##!
-##! Author: Romain Ollier <romain@soc-partner.com>
+##! Author: Romain <romain@soc-partner.com>
 
 module applookup;
 
 @load ./effectivename.zeek
-@load ./knownname.zeek
+@load ./knownapp.zeek
 
 redef record Conn::Info += { app_ename:string &optional &log; };
 redef record Conn::Info += { app_etld:string &optional &log; };
@@ -35,15 +35,16 @@ event connection_state_remove(c: connection)
 	local ename = EffectiveName::ename(domain);
       	c$conn$app_ename = ename$application;
       	c$conn$app_etld = ename$tld;
-	local app_kdomain = KnownName::kname_domain(domain);
-	if ( app_kdomain != "" ) c$conn$app_kdomain = app_kdomain;
-	else c$conn$app_kdomain = domain;
+	# local app_kdomain = KnownName::kname_domain(domain);
+	# if ( app_kdomain != "" ) c$conn$app_kdomain = app_kdomain;
+	# else c$conn$app_kdomain = domain;
 	}
     if (c?$id) 
 	{
-	local app_kip = KnownName::kname_ip(c$conn$id$orig_h);
-	if (app_kip == "") app_kip = KnownName::kname_ip(c$conn$id$resp_h);
-	if (app_kip != "") c$conn$app_kip = app_kip;
+	local app_ip: KnownApp::app = KnownApp::search_ip(c$conn$id$orig_h);
+	if (app_ip$exist == F)
+            app_ip = KnownApp::search_ip(c$conn$id$resp_h);
+	if (app_ip$exist == T) c$conn$app_kip = app_ip$name;
 	}
     }
 

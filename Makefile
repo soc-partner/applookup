@@ -5,3 +5,6 @@ effective-tld:
 
 ndpi:
 	bash ./aux/ndpi.parser.bash
+
+purge:
+	rm -rf domains.in nets.in effective-tld.zeek

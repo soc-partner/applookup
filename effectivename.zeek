@@ -45,6 +45,7 @@ function zone_by_depth(domain: string, depth: count): string
 
 function ename(domain: string): Effective 
 	{
+	local app: string;
 	local depth=1;
 	if ( effective_tlds_5th_level in domain )
 		depth=5;
@@ -55,22 +56,27 @@ function ename(domain: string): Effective
 	else if ( effective_tlds_2nd_level in domain )
 		depth=2;
 	local tld = zone_by_depth(domain, depth);
-	local name = domain[0:|domain|-|tld|-1];
-	local app = gsub(name, /.+\./, "");
-	if ( app == "www")
-	{
-		--depth;
-		tld = zone_by_depth(domain, depth);
-		name = domain[0:|domain|-|tld|-1];
+	if (domain == tld)
+		app = domain;
+	else
+		{
+		local name = domain[0:|domain|-|tld|-1];
 		app = gsub(name, /.+\./, "");
-	}
+		if ( app == "www")
+			{
+			--depth;
+			tld = zone_by_depth(domain, depth);
+			name = domain[0:|domain|-|tld|-1];
+			app = gsub(name, /.+\./, "");
+			}
+		}
 	return Effective($application = app,
 				$tld = tld);
 	}
 	
 #event zeek_init()
 #	{
-#	local domains = vector("blah.www.google.com", "test.googleapis.com", "www.googleapis.com", "googleapis.com", "x.y.z.google.com", "www.easa.eu.int");
+#	local domains = vector("blah.www.google.com", "test.googleapis.com", "www.googleapis.com", "googleapis.com", "x.y.z.google.com", "www.easa.eu.int", "com");
 #	for ( i in domains )
 #		{
 #		local result = ename(domains[i]);
