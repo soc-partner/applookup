@@ -5,29 +5,35 @@ zone3 = []
 zone4 = []
 zone5 = []
 
+# Open and read the public suffix list from the URL
 for line in urllib.request.urlopen("https://publicsuffix.org/list/public_suffix_list.dat"):
   line = line.decode('utf-8')
+  # Zone5
   if re.search('^((\w|\-)+|\*)\.(\w|\-)+\.(\w|\-)+\.(\w|\-)+\.(\w|\-)+$', line, re.ASCII):
     zone5.append(line.strip()
       .replace('.', '\.')
       .replace('*', '[^.]+')
     )
+  # Zone4
   elif re.search('^((\w|\-)+|\*)\.(\w|\-)+\.(\w|\-)+\.(\w|\-)+$', line, re.ASCII):
     zone4.append(line.strip()
       .replace('.', '\.')
       .replace('*', '[^.]+')
     )
+  # Zone3
   elif re.search('^((\w|\-)+|\*)\.(\w|\-)+\.(\w|\-)+$', line, re.ASCII):
     zone3.append(line.strip()
       .replace('.', '\.')
       .replace('*', '[^.]+')
     )
+  # Zone2
   elif re.search('^((\w|\-)+|\*)\.(\w|\-)+$', line, re.ASCII):
     zone2.append(line.strip()
       .replace('.', '\.')
       .replace('*', '[^.]+')
     )
 
+# Write the effective TLDs to a Zeek const
 with open('effective-tld.zeek', 'w') as f:
   f.write('module EffectiveName;' + '\n')
   f.write('\n')

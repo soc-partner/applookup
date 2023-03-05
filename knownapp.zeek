@@ -73,7 +73,7 @@ function insert_subnet(key: subnet, name: string) {
     # Traverse the tree bit-by-bit, creating new child nodes as necessary
     local bit: count;
     local i = 32;
-    while ( i != 32-mask ) { # Only creates mask bits
+    while ( i != 32-mask ) { # Ignore the bits out of the mask
         bit = bit_value(net, i-1);
         local child: count;
         if (bit !in tree$nodes[node]$children) { # Create a new child node if it doesn't exist yet
