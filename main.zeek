@@ -35,7 +35,7 @@ event connection_state_remove(c: connection) {
 
     # If a valid domain name is found, compute it effective application and tld
     if (domain != "") {
-        local ename = EffectiveName::ename(domain);
+        local ename = EffectiveName::effective_name(domain);
         c$conn$app_ename = ename$application;
         c$conn$app_etld = ename$tld;
 

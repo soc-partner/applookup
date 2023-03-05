@@ -20,9 +20,9 @@ export {
     ## This function returns an Effective record that contains the effectives
     ## application name and tld for a domain
     ##
-    ## x.y.z.googleapis.com -> z / googleapis.com
-    ## www.googleapis.com -> z / googleapis / com
-    global ename: function(domain: string): Effective;
+    ## x.y.z.googleapis.com -> application: z, tld: googleapis.com
+    ## www.googleapis.com -> application: googleapis, tld: com
+    global effective_name: function(domain: string): Effective;
 }
 
 
@@ -50,7 +50,7 @@ function zone_by_depth(domain: string, depth: count): string {
     return result[1:];
 }
 
-function ename(domain: string): Effective  {
+function effective_name(domain: string): Effective  {
     local app: string;
     local depth=1;
 

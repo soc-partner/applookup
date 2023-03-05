@@ -13,17 +13,17 @@ for filename in nDPI/src/lib/inc_generated/ndpi_*inc; do
     grep " 0x" $filename | grep -v '0x0, 0, 0' >> ip.raw
 done
 
-# Format the sunets as Zeek-compatible source file and write them to a file
+# Write the subnets to a Zeek-compatible file format
 echo "#fields	ip	name" > nets.in
 sed -e 's=^.*{ 0x[0-9A-Za-z]* /. \([^ /|^*]*\).*, *\([0-9][0-9]*\) *, NDPI_PROTOCOL_\([A-Za-z0-9_]*\) .*=\1/\2	\3=' < ip.raw | sort | uniq >> nets.in
 
 # Search for domain names in the nDPI source file and write them to a file
 egrep -o '{ ".*", +".*"' nDPI/src/lib/ndpi_content_match.c.inc > domain.raw
 
-# Format the domain names as Zeek-compatible regular expressions and write them to a file
+# Write the domain names regex to a Zeek-compatible file format
 echo "#fields	domain	name" > domains.in
 sed -r 's/^\s+"//; s/",\s+"/\t/; s/".+?$//; s/^[^\.]/\^&/; s/\t/\$\t/; s/\.\$/\./; s/\./\\\./g; s/^[^\t]+/\/&\//' domain.raw >> domains.in
 
-# Remove the nDPI directory and the temporary raw files
+# Remove the nDPI git directory and the temporary raw files
 rm -rf nDPI 
 rm ip.raw domain.raw
