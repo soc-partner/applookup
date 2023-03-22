@@ -49,7 +49,7 @@ event connection_state_remove(c: connection) {
     if (c?$id) {
         local app_ip: KnownApp::app = KnownApp::search_ip(c$conn$id$resp_h); # Check if the destination IP is a known application
         if (app_ip$exist == F) # Otherwise, check the source IP
-            app_ip = KnownApp::search_ip(c$conn$id$origin_h);
+            app_ip = KnownApp::search_ip(c$conn$id$orig_h);
         if (app_ip$exist == T)
             c$conn$app_kip = app_ip$name;
     }
